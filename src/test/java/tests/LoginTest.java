@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,11 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginTest {
 
     WebDriver driver;
+    LoginPage loginpage;
+
+    // PREPARAÇÃO
 
     @BeforeEach
     void setup() {
         driver = new ChromeDriver();
         driver.get("https://www.saucedemo.com");
+        LoginPage loginPage = new LoginPage(driver);
     }
 
     @AfterEach
@@ -26,17 +31,39 @@ public class LoginTest {
     }
 
 
+    // ABRIR O SITE
+
     @Test
     void deveAbrirOSite() {
         assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
         System.out.println("Título: " + driver.getTitle());
     }
 
+
+    // LOGIN CONCLUÍDO (usuário e senha corretos)
+
+    @Test
+    void usuarioCorretoSenhaCorreta(){
+
+        loginpage.inserirUsuario("standard_user");
+        loginpage.inserirSenha("secret_sauce");
+        loginpage.clicarBotaoLogin("login-button");
+
+        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+
+        System.out.println("Título: " + driver.getTitle());
+
+    }
+
+
+    // LOGIN COM FALHA (aparece mensagem de erro e continua na tela de login)
+
     @Test
     void usuarioIncorretoSenhaIncorreta(){
-        driver.findElement(By.id("user-name")).sendKeys("bolinho");
-        driver.findElement(By.id("password")).sendKeys("coxinha");
-        driver.findElement(By.id("login-button")).click();
+
+        loginpage.inserirUsuario("bolinho");
+        loginpage.inserirSenha("coxinha");
+        loginpage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
@@ -48,9 +75,10 @@ public class LoginTest {
 
     @Test
     void usuarioCorretoSenhaIncorreta(){
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("coxinha");
-        driver.findElement(By.id("login-button")).click();
+
+        loginpage.inserirUsuario("standard_user");
+        loginpage.inserirSenha("coxinha");
+        loginpage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
@@ -62,9 +90,9 @@ public class LoginTest {
 
     @Test
     void usuarioIncorretoSenhaCorreta(){
-        driver.findElement(By.id("user-name")).sendKeys("coxinha");
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
+        loginpage.inserirUsuario("coxinha");
+        loginpage.inserirSenha("secret_sauce");
+        loginpage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
@@ -72,18 +100,6 @@ public class LoginTest {
 
         assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
         assertEquals("Epic sadface: Username and password do not match any user in this service", mensagem);
-    }
-
-    @Test
-    void usuarioCorretoSenhaCorreta(){
-        driver.findElement(By.id("user-name")).sendKeys("standard_user");
-        driver.findElement(By.id("password")).sendKeys("secret_sauce");
-        driver.findElement(By.id("login-button")).click();
-
-        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
-
-        System.out.println("Título: " + driver.getTitle());
-
     }
 
 }
