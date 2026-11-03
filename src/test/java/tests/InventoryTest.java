@@ -48,6 +48,11 @@ public class InventoryTest {
     // CARRINHO
 
     @Test
+    void acessarCarrinhoDeCompras(){
+        inventoryPage.acessarCarrinhoDeCompras("shopping_cart_link");
+    }
+
+    @Test
     void botaoViraRemoveDepoisDeAdicionar() {
         inventoryPage.adicionarBackpackAoCarrrinho("add-to-cart-sauce-labs-backpack");
         assertEquals("Remove", inventoryPage.lerTextoBotaoRemove());

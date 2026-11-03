@@ -75,4 +75,6 @@ public class InventoryPage {
 
         wait.until(ExpectedConditions.urlContains(parteDaUrl));
     }
+
+
 }

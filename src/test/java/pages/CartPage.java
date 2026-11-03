@@ -14,4 +14,8 @@ public class CartPage {
     public String lerNomeDoItem() {
         return driver.findElement(By.cssSelector("[data-test='inventory-item-name']")).getText();
     }
+
+    public void voltarParaTelaInventario(){
+        driver.findElement(By.id("continue-shopping")).click();
+    }
 }
