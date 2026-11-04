@@ -24,4 +24,8 @@ public class CartPage {
     public void voltarParaTelaInventario(){
         driver.findElement(By.id("continue-shopping")).click();
     }
+
+    public void clicarCheckout(){
+        driver.findElement(By.id("checkout")).click();
+    }
 }

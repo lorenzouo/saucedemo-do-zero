@@ -52,6 +52,12 @@ public class CartTest {
 
     }
 
+    @Test
+    void irParaTelaCheckout(){
+        cartPage.clicarCheckout();
+        assertEquals("https://www.saucedemo.com/checkout-step-one.html", driver.getCurrentUrl());
+    }
+
 
 
 
