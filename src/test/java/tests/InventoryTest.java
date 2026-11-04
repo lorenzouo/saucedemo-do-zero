@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.CartPage;
@@ -27,7 +28,11 @@ public class InventoryTest {
 
     @BeforeEach
     void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        if (System.getenv("CI") != null) {
+            options.addArguments("--headless=new", "--window-size=1920,1080");
+        }
+        driver = new ChromeDriver(options);
         loginPage = new LoginPage(driver);
         inventoryPage = new InventoryPage(driver);
         cartPage = new CartPage(driver);

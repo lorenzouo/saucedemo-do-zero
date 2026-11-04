@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.CartPage;
 import pages.InventoryPage;
 import pages.LoginPage;
@@ -22,7 +23,11 @@ public class CartTest {
 
     @BeforeEach
     void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        if (System.getenv("CI") != null) {
+            options.addArguments("--headless=new", "--window-size=1920,1080");
+        }
+        driver = new ChromeDriver(options);
         loginPage = new LoginPage(driver);
         inventoryPage = new InventoryPage(driver);
         cartPage = new CartPage(driver);

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +21,11 @@ public class LoginTest {
 
     @BeforeEach
     void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        if (System.getenv("CI") != null) {
+            options.addArguments("--headless=new", "--window-size=1920,1080");
+        }
+        driver = new ChromeDriver(options);
         driver.get("https://www.saucedemo.com");
         LoginPage loginPage = new LoginPage(driver);
     }
