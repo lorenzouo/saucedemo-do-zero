@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginTest {
 
     WebDriver driver;
-    LoginPage loginpage;
+    LoginPage loginPage;
 
     // PREPARAÇÃO
 
@@ -27,7 +27,7 @@ public class LoginTest {
         }
         driver = new ChromeDriver(options);
         driver.get("https://www.saucedemo.com");
-        LoginPage loginPage = new LoginPage(driver);
+        loginPage = new LoginPage(driver);
     }
 
     @AfterEach
@@ -50,9 +50,9 @@ public class LoginTest {
     @Test
     void usuarioCorretoSenhaCorreta(){
 
-        loginpage.inserirUsuario("standard_user");
-        loginpage.inserirSenha("secret_sauce");
-        loginpage.clicarBotaoLogin("login-button");
+        loginPage.inserirUsuario("standard_user");
+        loginPage.inserirSenha("secret_sauce");
+        loginPage.clicarBotaoLogin("login-button");
 
         assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
 
@@ -66,9 +66,9 @@ public class LoginTest {
     @Test
     void usuarioIncorretoSenhaIncorreta(){
 
-        loginpage.inserirUsuario("bolinho");
-        loginpage.inserirSenha("coxinha");
-        loginpage.clicarBotaoLogin("login-button");
+        loginPage.inserirUsuario("bolinho");
+        loginPage.inserirSenha("coxinha");
+        loginPage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
@@ -81,9 +81,9 @@ public class LoginTest {
     @Test
     void usuarioCorretoSenhaIncorreta(){
 
-        loginpage.inserirUsuario("standard_user");
-        loginpage.inserirSenha("coxinha");
-        loginpage.clicarBotaoLogin("login-button");
+        loginPage.inserirUsuario("standard_user");
+        loginPage.inserirSenha("coxinha");
+        loginPage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
@@ -95,9 +95,9 @@ public class LoginTest {
 
     @Test
     void usuarioIncorretoSenhaCorreta(){
-        loginpage.inserirUsuario("coxinha");
-        loginpage.inserirSenha("secret_sauce");
-        loginpage.clicarBotaoLogin("login-button");
+        loginPage.inserirUsuario("coxinha");
+        loginPage.inserirSenha("secret_sauce");
+        loginPage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
         System.out.println("Título: " + driver.getTitle());
