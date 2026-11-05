@@ -11,6 +11,7 @@ import pages.InventoryPage;
 import pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class CartTest {
 
@@ -58,7 +59,13 @@ public class CartTest {
         assertEquals("https://www.saucedemo.com/checkout-step-one.html", driver.getCurrentUrl());
     }
 
-
+    @Test
+    void removerProdutoDoCarrinho(){
+        inventoryPage.adicionarBackpackAoCarrrinho("add-to-cart-sauce-labs-backpack");
+        inventoryPage.acessarCarrinhoDeCompras("shopping_cart_link");
+        cartPage.removerProduto();
+        assertTrue(cartPage.itemRemovido());
+    }
 
 
 

@@ -21,6 +21,15 @@ public class CartPage {
                 By.cssSelector("[data-test='inventory-item-name']"))).getText();
     }
 
+    public void removerProduto(){
+        driver.findElement(By.id("remove-sauce-labs-backpack")).click();
+    }
+
+    public boolean itemRemovido() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("remove-sauce-labs-backpack")));
+    }
+
     public void voltarParaTelaInventario(){
         driver.findElement(By.id("continue-shopping")).click();
     }

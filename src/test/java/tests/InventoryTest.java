@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.AssertJUnit;
 import pages.CartPage;
 import pages.InventoryPage;
 import pages.LoginPage;
@@ -69,6 +70,14 @@ public class InventoryTest {
         inventoryPage.acessarCarrinhoDeCompras("shopping_cart_link");
         cartPage.lerNomeDoItem();
         assertEquals("Sauce Labs Backpack", cartPage.lerNomeDoItem());
+    }
+
+    @Test
+    void removerProdutoDoCarrinho(){
+        inventoryPage.adicionarBackpackAoCarrrinho("add-to-cart-sauce-labs-backpack");
+        inventoryPage.acessarCarrinhoDeCompras("shopping_cart_link");
+        cartPage.removerProduto();
+        AssertJUnit.assertTrue(cartPage.itemRemovido());
     }
 
 
