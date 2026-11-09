@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,6 +16,9 @@ import pages.InventoryPage;
 import pages.LoginPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -104,6 +108,7 @@ public class InventoryTest {
         assertTrue(inventoryPage.menuEstaFechado());
     }
 
+
     //RODAPÉ
 
     @Test
@@ -123,5 +128,42 @@ public class InventoryTest {
         inventoryPage.clicarRedeSocial("social-linkedin", "linkedin.com");
         assertTrue(driver.getCurrentUrl().contains("linkedin.com"));
     }
+
+
+    //INVENTÁRIO
+
+    @Test
+    void abrirDetalhesDoProduto() {
+        inventoryPage.abrirProduto("Sauce Labs Bike Light");
+        assertEquals("https://www.saucedemo.com/inventory-item.html?id=0", driver.getCurrentUrl());
+    }
+
+    @Test
+    void ordenarNomeZParaA() {
+        inventoryPage.ordenarPor("Name (Z to A)");
+
+        List<String> naTela = inventoryPage.lerNomesDosProdutos();
+
+        List<String> ordenadoPeloCodigo = new ArrayList<>(naTela);
+        ordenadoPeloCodigo.sort(Collections.reverseOrder());
+
+        assertEquals(6, naTela.size());
+        assertEquals(ordenadoPeloCodigo, naTela);
+    }
+
+    @Test
+    void ordenarPrecoMenorParaMaior() {
+        inventoryPage.ordenarPor("Price (low to high)");
+
+        List<Double> naTela = inventoryPage.lerPrecosDosProdutos();
+
+        List<Double> ordenadoPeloCodigo = new ArrayList<>(naTela);
+        Collections.sort(ordenadoPeloCodigo);
+
+        assertEquals(6, naTela.size());
+        assertEquals(ordenadoPeloCodigo, naTela);
+    }
+
+
 
 }

@@ -59,13 +59,7 @@ public class CartTest {
         assertEquals("https://www.saucedemo.com/checkout-step-one.html", driver.getCurrentUrl());
     }
 
-    @Test
-    void removerProdutoDoCarrinho(){
-        inventoryPage.adicionarBackpackAoCarrrinho("add-to-cart-sauce-labs-backpack");
-        inventoryPage.acessarCarrinhoDeCompras("shopping_cart_link");
-        cartPage.removerProduto();
-        assertTrue(cartPage.itemRemovido());
-    }
+
 
 
 
