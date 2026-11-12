@@ -3,6 +3,8 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -63,45 +65,18 @@ public class LoginTest {
 
     // LOGIN COM FALHA (aparece mensagem de erro e continua na tela de login)
 
-    @Test
-    void usuarioIncorretoSenhaIncorreta(){
-
-        loginPage.inserirUsuario("bolinho");
-        loginPage.inserirSenha("coxinha");
+    @ParameterizedTest
+    @CsvSource({
+            "bolinho, coxinha",
+            "standard_user, coxinha",
+            "coxinha, secret_sauce"
+    })
+    void loginInvalido_exibeMensagemDeErro(String usuario, String senha) {
+        loginPage.inserirUsuario(usuario);
+        loginPage.inserirSenha(senha);
         loginPage.clicarBotaoLogin("login-button");
 
         String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
-        System.out.println("Título: " + driver.getTitle());
-        System.out.println("Mensagem : " + mensagem);
-
-        assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
-        assertEquals("Epic sadface: Username and password do not match any user in this service", mensagem);
-    }
-
-    @Test
-    void usuarioCorretoSenhaIncorreta(){
-
-        loginPage.inserirUsuario("standard_user");
-        loginPage.inserirSenha("coxinha");
-        loginPage.clicarBotaoLogin("login-button");
-
-        String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
-        System.out.println("Título: " + driver.getTitle());
-        System.out.println("Mensagem : " + mensagem);
-
-        assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
-        assertEquals("Epic sadface: Username and password do not match any user in this service", mensagem);
-    }
-
-    @Test
-    void usuarioIncorretoSenhaCorreta(){
-        loginPage.inserirUsuario("coxinha");
-        loginPage.inserirSenha("secret_sauce");
-        loginPage.clicarBotaoLogin("login-button");
-
-        String mensagem = driver.findElement(By.cssSelector("[data-test='error']")).getText();
-        System.out.println("Título: " + driver.getTitle());
-        System.out.println("Mensagem : " + mensagem);
 
         assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
         assertEquals("Epic sadface: Username and password do not match any user in this service", mensagem);
